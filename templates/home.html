@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/static/styles.css">
+        <title>Image Extractor</title>
+
+
+    </head>
+    <!-- error modal -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="w-full text-white bg-red-500">
+        <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+            <div class="flex">
+                <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+                    <path
+                        d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z">
+                    </path>
+                </svg>
+
+                <p class="mx-3">{{ message }}</p>
+            </div>
+            <a href="/"
+                class="p-1 transition-colors duration-200 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none">
+                <button
+                    class="p-1 transition-colors duration-200 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <!-- error modal  -->
+
+    <header class="text-gray-400 bg-gray-900 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+                <img src="/static/upload.png" alt="" srcset="" class="w-10 h-10 text-white p-2 rounded-2xl">
+                <span class="ml-3 text-xl">Extract Pic</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="/" class="mr-5 hover:text-white hover:cursor-pointer">Home</a>
+                <a class="mr-5 hover:text-white hover:cursor-pointer">About Me</a>
+            </nav>
+            <a href="https://github.com/ASACHIT/Pics-Extractor.git" target="_blank">
+                <button
+                    class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Github
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </header>
+
+    <body class="bg-gray-50">
+        <section class="text-gray-400 bg-gray-900 body-font">
+            <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                <div
+                    class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+                    <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">Image Extractor</h1>
+                    <p class="mb-8 leading-relaxed">Extract all the images from any website and webpages</p>
+                    <div class="flex w-full md:justify-start justify-center items-end">
+                        <form action="" method="post" class="flex w-full md:justify-start justify-center items-end">
+                            <div class="relative mr-4 md:w-full lg:w-full xl:w-1/2 w-2/4">
+                                {% csrf_token %}
+                                <label for="hero-field" class="leading-7 text-sm text-gray-400">Url of Website</label>
+                                <input type="text" id="hero-field" name="hero-field"
+                                    placeholder="Eg: https://itsnp.org/"
+                                    class="w-full bg-gray-800 rounded bg-opacity-40 border border-gray-700 focus:ring-2 focus:ring-green-900 focus:bg-transparent focus:border-green-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            </div>
+                            <button type="submit"
+                                class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Extract</button>
+                        </form>
+                    </div>
+                    <p class="text-sm mt-2 text-gray-500 mb-8 w-full">simply scrapes all images from website</p>
+                </div>
+                <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+                    <img class="object-cover object-center rounded" alt="hero" src="/static/img2.png">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- image container after iterating over image links   -->
+        <div class="px-10 pb-10 flex-1">
+            <div
+                class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-6">
+                {% for image_url, file_name, file_format in ImagesAndFilenames %}
+                <div>
+                    <div
+                        class="bg-white rounded-md shadow-green-100 h-full flex flex-col justify-between app-image relative transition-all duration-200 transform hover:-translate-y-2 hover:scale-105 hover:z-10 hover:shadow-xl focus-within:z-20">
+                        <div>
+                            <div class="w-full relative" style="padding-bottom: 100;">
+                                <div class="left-0 w-full h-full p-6 flex-1">
+                                    <div class="rounded-md w-full h-full overflow-hidden bg-green-50">
+                                        <img src="{{ image_url }}" alt="" srcset=""
+                                            class="object-scale-down h-full w-full cursor-pointer">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="px-6 pb-4 -mt-2">
+                                <div class="flex justify-between overflow-hidden">
+                                    <div class="font-normal overflow-hidden">Name: {{ file_name }}</div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 border-t border-gray-200 flex flex-wrap items-center justify-between">
+                            <div>
+                                <!-- OPEN IMAGE LINK BUTTON and ICON -->
+                                <a href="{{ image_url }}" class="button p-0 h-10 w-10 is-text" target="_blank">
+                                    <button type="button" class="button p-0 h-10 w-10 is-text" id="down">
+                                        <span>
+                                            <div class="app-icon h-6 w-6">
+                                                <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" width="24px" height="24px">
+                                                    <path
+                                                        d="M 5 3 C 3.9069372 3 3 3.9069372 3 5 L 3 19 C 3 20.093063 3.9069372 21 5 21 L 19 21 C 20.093063 21 21 20.093063 21 19 L 21 12 L 19 12 L 19 19 L 5 19 L 5 5 L 12 5 L 12 3 L 5 3 z M 14 3 L 14 5 L 17.585938 5 L 8.2929688 14.292969 L 9.7070312 15.707031 L 19 6.4140625 L 19 10 L 21 10 L 21 3 L 14 3 z" />
+                                                </svg>
+                                            </div>
+                                        </span>
+                                    </button>
+                                </a>
+                                <!-- OPEN IMAGE LINK -->
+                                <button type="button" class="button p-0 h-10 w-10 is-text">
+                                    <span>
+                                        <div class="app-icon h-6 w-6">
+                                        </div>
+                                    </span>
+                                </button>
+                            </div>
+                            <div>
+                                <div
+                                    class="dropdown dropdown-menu-animation is-bottom-left is-mobile-modal overflow-hidden w-9">
+                                    <span class="bg-green-50 text-gray-600 p-1 rounded-md">{{ file_format }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- image container after iterating over image links   -->
+
+        <div class="flex-1">
+            <h1 class="text-center text-3xl font-semibold">How Does it Works?</h1>
+            <section class="text-gray-600 body-font">
+                <div class="container px-5 py-24 mx-auto flex flex-wrap">
+                    <div class="flex flex-wrap w-full justify-center">
+                        <div class="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6 justify-center">
+                            <div class="flex relative pb-12">
+                                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                                    <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                                </div>
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-full bg-green-500 inline-flex items-center justify-center text-white relative z-10">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-grow pl-4">
+                                    <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 1
+                                    </h2>
+                                    <p class="leading-relaxed">First, it gets the page url from the frontend, passes to
+                                        the backend and checks
+                                        whether the url is valid or not.</p>
+                                </div>
+                            </div>
+                            <div class="flex relative pb-12">
+                                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                                    <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                                </div>
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-full bg-green-500 inline-flex items-center justify-center text-white relative z-10">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-grow pl-4">
+                                    <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 2
+                                    </h2>
+                                    <p class="leading-relaxed">If the URL is found to be valid, it is requested and the
+                                        html responses are parsed.</p>
+                                </div>
+                            </div>
+                            <div class="flex relative pb-12">
+                                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                                    <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                                </div>
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-full bg-green-500 inline-flex items-center justify-center text-white relative z-10">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="5" r="3"></circle>
+                                        <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-grow pl-4">
+                                    <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 3
+                                    </h2>
+                                    <p class="leading-relaxed">It searches for all img> tags in all parsed html
+                                        responses, and from all those img tags, it searches for "src" attribute for
+                                        links and urls of pictures, and stores it in a list.</p>
+                                </div>
+                            </div>
+                            <div class="flex relative pb-12">
+                                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                                    <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                                </div>
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-full bg-green-500 inline-flex items-center justify-center text-white relative z-10">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                                <div class="flex-grow pl-4">
+                                    <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">STEP 4
+                                    </h2>
+                                    <p class="leading-relaxed">After that, it uses the split method to find image
+                                        formats such as png, jpg, and webp, as well as the names of image files on the
+                                        server, which it then stores in a list.</p>
+                                </div>
+                            </div>
+                            <div class="flex relative">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-full bg-green-500 inline-flex items-center justify-center text-white relative z-10">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                                        <path d="M22 4L12 14.01l-3-3"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-grow pl-4">
+                                    <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">FINISH
+                                    </h2>
+                                    <p class="leading-relaxed">Everything, including image file names, urls, and
+                                        formats, is packed into an object and given to the frontend via the context
+                                        manager, where it is rendered using the templating language.</p>
+                                </div>
+                            </div>
+                        </div>
+            </section>
+        </div>
+
+    </body>
+
+
+    <footer class="text-gray-600 body-font">
+        <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+            <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+                <img src="/static/pfp.png" alt="" srcset=""
+                    class="w-h-20 h-20 text-white p-2 stroke-slate-400 rounded-full">
+                <span class="ml-3 text-xl">Extract Pics</span>
+            </a>
+            <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
+                Sachit Yadav
+            </p>
+            <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+                <a class="text-gray-500" href="https://www.facebook.com/sachhit.yadav" target="_blank">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        class="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                    </svg>
+                </a>
+                <a class="ml-3 text-gray-500" href="https://www.instagram.com/sachhit_yadav/" target="_blank">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                    </svg>
+                </a>
+                <a class="ml-3 text-gray-500" href="https://www.linkedin.com/in/sachit-yadav/" target="_blank">
+                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                        <path stroke="none"
+                            d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
+                        </path>
+                        <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                    </svg>
+                </a>
+            </span>
+        </div>
+    </footer>
+
+</html>

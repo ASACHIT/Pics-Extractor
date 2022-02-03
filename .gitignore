@@ -1,0 +1,8 @@
+env/
+__pycache__/
+
+
+/templates/package.json
+/templates/package-lock.json
+/templates/tailwind.config.js
+templates/node_modules/
