@@ -18,7 +18,6 @@ Install Pic Extractor
 ```bash
   python manage.py runserver
   # open url localhost:8000 
-  pip install -r requirements.txt
 ```    
 
 ## Screenshots
