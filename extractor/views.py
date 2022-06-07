@@ -22,5 +22,5 @@ def scrape(request):
             messages.add_message(
                 request, messages.INFO, "Wrong Website URL, Input with Protocols"
             )
-            return redirect("extracting")  # redirect to home page
+            return redirect("extractimg")  # redirect to home page
     return render(request, "home.html")  # rendering home page
