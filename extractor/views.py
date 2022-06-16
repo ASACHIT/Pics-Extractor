@@ -1,11 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from .scraper import ScrapeImages  # scraping script
+from .scraper import ScrapeImages
 
 
 def scrape(request):
-    # if form is submitted with post request then
+
     if request.method == "POST":
         url = request.POST.get("hero-field")  # fecthing url from input tag
         # validating inputted url
@@ -22,5 +22,5 @@ def scrape(request):
             messages.add_message(
                 request, messages.INFO, "Wrong Website URL, Input with Protocols"
             )
-            return redirect("extractimg")  # redirect to home page
+            return redirect("extracting")  # redirect to home page
     return render(request, "home.html")  # rendering home page
