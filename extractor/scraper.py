@@ -13,7 +13,7 @@ class ScrapeImages:
         parsed = urlparse(image_url)
         return bool(parsed.netloc) and bool(parsed.scheme)
 
-    def get_all_images(self) -> List[str, str, str]:
+    def get_all_images(self) -> List[str]:
 
         urls = []
         filenames_list = []
