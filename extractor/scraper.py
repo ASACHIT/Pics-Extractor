@@ -2,23 +2,18 @@ from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup as bs
+from typing import List
 
 
 class ScrapeImages:
-    def __init__(self, url):
+    def __init__(self, url: str) -> None:
         self.url = url
 
-    def validate_url(self, image_url):
-        """
-        Check if url is valid or not
-        """
+    def validate_url(self, image_url: str) -> bool:
         parsed = urlparse(image_url)
         return bool(parsed.netloc) and bool(parsed.scheme)
 
-    def get_all_images(self):
-        """
-        Returns image link, image file name, image file extension zipped makig queryset or an object
-        """
+    def get_all_images(self) -> List[str, str, str]:
 
         urls = []
         filenames_list = []
@@ -27,8 +22,6 @@ class ScrapeImages:
         soup = bs(requests.get(self.url).content, "html.parser")
         for img in soup.find_all("img"):
             img_url = img.attrs.get("src")
-
-            # if image url doesnot containt src attribute continue or skip
             if not img_url:
                 continue
 
@@ -46,7 +39,7 @@ class ScrapeImages:
                 # if direct image links are valid, then append to the defined list
                 urls.append(img_url)
 
-                # fullimagename such as sachit.png, python.png etc
+                # full image name such as sachit.png, python.png etc
                 full_image_name = img_url.split("/")[-1]
 
                 # file name only without extension like sachit, python etc
@@ -62,5 +55,5 @@ class ScrapeImages:
 
 if __name__ == "__main__":
     a = ScrapeImages("http://itsnp.org/")
-    for link, filename, fileformat in a.get_all_images():
-        print(link, filename, fileformat)
+    for link, filename, file_format in a.get_all_images():
+        print(link, filename, file_format)
